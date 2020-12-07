@@ -28,12 +28,23 @@ class WhatsHappening::Scraper
     def self.scrape_info(celebration)
         url = celebration.link
         doc = Nokogiri::HTML(open(url))
-        descriptions = doc.css("div.holiday-section.holiday-content")
+        # page = doc.css("div.holiday-section.holiday-content")
 
-        descriptions.each do |description|
-            info = description.css("div.entry-content-inner p").text
-            celebration.description << info
+        doc.css("div.holiday-section.holiday-content").each do |info|
+            description = info.css("div.entry-content-inner p").text
+            celebration.description << description
         end
+
+        doc.css("ol.holiday-list.holiday-list-celebrate").each do |info|
+            activity_title = info.css("div.holiday-list-item-inner h3").first.text
+            activity_paragraph = info.css("div.holiday-list-item-inner p").text
+            celebration.activity << activity_title
+            celebration.activity << activity_paragraph
+        end
+
+        # add history?
+
+
     end
 
     # def scrape_today

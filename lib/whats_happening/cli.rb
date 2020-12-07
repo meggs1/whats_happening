@@ -1,15 +1,24 @@
 class WhatsHappening::CLI 
 
     def call
-        puts "What'h happening this month?"
+        puts "Welcome to What's Happening!"
         @input = ""
         while @input != "exit"
             get_months
             list_months
             get_user_month
+            what_next
         end
         goodbye
     end
+
+    # def menu
+    #     puts "Enter the number of the month you're interested in:"
+    #     list_months
+    #     get_user_month
+    #     show_celebrations(user_month)
+    # end
+
 
     def get_months
         @months = WhatsHappening::Month.all
@@ -43,17 +52,48 @@ class WhatsHappening::CLI
         puts "Choose an event to learn more:"
         input = gets.strip
         celebration = month.celebrations[input.to_i - 1]
-        celebration.get_celebration_details
-        show_celebration_details(celebration)
+        celebration.get_celebration_description
+        show_celebration_descripton(celebration)
     end
 
-    def show_celebration_details(celebration)
+    def show_celebration_descripton(celebration)
         puts celebration.name
         celebration.description.each {|d| puts "#{d}"}
+        show_activity(celebration)
     end
 
+    def show_activity(celebration)
+        celebration.activity.each {|activity| puts "#{activity}."}
+    end
+
+    def what_next
+        puts "type'exit' to exit"
+        @input = gets.strip
+    end
     def goodbye
         puts "bye"
     end
-
 end
+
+
+
+# def menu
+#     puts "Enter the number of the month you're interested in:"
+#     list_months
+#     get_user_month
+#     show_celebrations(user_month)
+# end
+
+
+# def options
+#     puts "Type 'learn more' to learn more, 'months' to list months or 'exit' to exit."
+#     if input == "learn more"
+#         puts "more info"
+#     elsif input == "months"
+#         list_months
+#     elsif input == "exit"
+#         exit
+#     else
+#         "sorry invalid"
+#     end
+# end
