@@ -19,27 +19,22 @@ class WhatsHappening::Scraper
 
         celebrations.each do |celebration|
             name = celebration.css("td.title").text
-            category = celebration.css("td.category").text
             link = celebration.css("td.title a").attribute("href").value
-            WhatsHappening::Celebration.new(name, month, category, link)
+            WhatsHappening::Celebration.new(name, month, link)
         end
     end
  
     def self.scrape_info(celebration)
         url = celebration.link
         doc = Nokogiri::HTML(open(url))
-        # page = doc.css("div.holiday-section.holiday-content")
 
         doc.css("div.holiday-section.holiday-content").each do |info|
-            description = info.css("div.entry-content-inner p").text
-            celebration.description << description
+            celebration.description = info.css("div.entry-content-inner p").text
         end
 
         doc.css("ol.holiday-list.holiday-list-celebrate").each do |info|
-            activity_title = info.css("div.holiday-list-item-inner h3").first.text
-            activity_paragraph = info.css("div.holiday-list-item-inner p").text
-            celebration.activity << activity_title
-            celebration.activity << activity_paragraph
+            celebration.activity_title = info.css("div.holiday-list-item-inner h3").first.text
+            celebration.activity_info = info.css("div.holiday-list-item-inner p").first.text
         end
 
         # add history?
