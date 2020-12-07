@@ -1,14 +1,12 @@
-
 class WhatsHappening::CLI 
 
     def call
-        puts "Welcome to National Day!"
+        puts "What'h happening this month?"
         @input = ""
         while @input != "exit"
             get_months
             list_months
             get_user_month
-            what_next
         end
         goodbye
     end
@@ -54,11 +52,8 @@ class WhatsHappening::CLI
         celebration.description.each {|d| puts "#{d}"}
     end
 
-    def what_next
-        puts "type'exit' to exit"
-        @input = gets.strip
-    end
     def goodbye
         puts "bye"
     end
+
 end
