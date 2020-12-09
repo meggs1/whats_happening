@@ -6,7 +6,7 @@ class WhatsHappening::CLI
         █░░╦─╦╔╗╦─╔╗╔╗╔╦╗╔╗░░█
         █░░║║║╠─║─║─║║║║║╠─░░█
         █░░╚╩╝╚╝╚╝╚╝╚╝╩─╩╚╝░░█
-        ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ "
+        ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ".yellow
 
         start
     end
@@ -15,13 +15,7 @@ class WhatsHappening::CLI
         @months = WhatsHappening::Month.all
     end
 
-    def list_months
-        puts "Enter the number of the month you're interested in:"
-        @months.each.with_index(1)  {|month, i| puts "#{i}. #{month.name}"}
-    end
-
     def start
-        input = nil
         get_months
         list_months
         input = gets.strip.to_i
@@ -34,89 +28,108 @@ class WhatsHappening::CLI
             start
         end
     end
+
+    def list_months
+        puts "Please enter the number of the month you're interested in:".green
+        @months.each.with_index(1)  {|month, i| puts "#{i}. #{month.name}"}
+    end
     
     def show_celebrations(input)
         month = @months[input - 1]
         month.get_celebrations
-        puts "Here is what's happening in #{month.name}"
-        month.celebrations.each.with_index(1) do |celebration, i|
-            puts "#{i}. #{celebration.name}"
+        if input > 0 && input <= month.celebrations.length
+            puts "Here is what's happening in #{month.name}".light_magenta
+            month.celebrations.each.with_index(1) do |celebration, i|
+                puts "#{i}. #{celebration.name}"
+            end
+            get_user_celebration(month)
+        else
+            invalid_input
         end
-        get_user_celebration(month)
     end
 
     def get_user_celebration(month)
-        puts "Choose an event to learn more:"
+        puts "Choose the number of an event to learn more or type 'list months' to list months".green
         input = gets.strip.to_i
         celebration = month.celebrations[input - 1]
         celebration.get_celebration_description
         if input > 0 && input < @months.length + 1
             show_celebration_descripton(celebration)
+        elsif input == "list_months"
+            list_months
         else
             invalid_entry
-            show_celebrations(input)
+            get_user_celebration(month)
         end
     end
 
     def show_celebration_descripton(celebration)
-        puts celebration.name
-        puts " "
+        puts celebration.name.light_magenta
         puts celebration.description
-        puts " "
-        puts "type 'woo!' to see how you can celebrate, enter 'list months' to show months or type 'exit' to exit."
+        
+        get_celebration_description(celebration)
+    end
+
+    def get_celebration_description(celebration)
+        puts "type 'woo!' to see how you can participate, enter 'list months' to list months or type 'exit' to exit.".green
         input = gets.strip.downcase 
-        if input == "woo!" || "woo"
+        if input == "woo!" || input == "woo"
             show_activity_title(celebration)
         elsif input == "list months"
-            list_months
+            start
         elsif input == "exit"
             goodbye
         else
             invalid_entry
-            show_celebration_descripton(celebration)
+            get_celebration_description(celebration)
         end
     end
 
     def show_activity_title(celebration)
         puts "To celebrate #{celebration.name} you can #{celebration.activity_title.downcase}!"
-        puts " "
-        puts "to learn more enter 'learn more',  to list months enter 'list months'  or type 'exit' to exit."
+        get_activity_title(celebration)
+    end
+
+    def get_activity_title(celebration)
+        puts "to learn more enter 'learn more', to list months enter 'list months'  or type 'exit' to exit.".green
         input = gets.strip.downcase
         if input == "learn more"
             show_activity_info(celebration)
         elsif input == "list months"
-            list_months
+            start
         elsif input == "exit"
             goodbye
         else
             invalid_entry
-            show_activity_title(celebration)
+            get_activity_title(celebration)
         end
     end
 
     def show_activity_info(celebration)
-        puts " "
         puts celebration.activity_info
-        
-        puts "to list months enter 'list months'  or type 'exit' to exit."
+        get_activity_info(celebration)
+    end
+
+    def get_activity_info(celebration)
+        puts "to list months enter 'list months'  or type 'exit' to exit.".green
         input = gets.strip.downcase
         if input == "list months"
-            list_months
+            start
         elsif input == "exit"
             goodbye
         else
             invalid_entry
-            show_activity_info(celebration)
+            get_activity_info(celebration)
         end
     end
 
     def invalid_entry
-       puts  "Sorry, not sure what you mean, try again"
+       puts  "Sorry, not sure what you mean. Try again".red
        puts " "
     end
 
     def goodbye
-        puts "See you next month!"
+        puts "Goodbye! See you next month!".yellow
     end
 end
 

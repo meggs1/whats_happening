@@ -3,6 +3,7 @@ require 'pry'
 require 'nokogiri'
 require 'open-uri'
 require 'httparty'
+require 'colorize'
 
 require_relative './whats_happening/version'
 require_relative './whats_happening/cli'
