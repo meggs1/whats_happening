@@ -32,26 +32,15 @@ class WhatsHappening::Scraper
             celebration.description = info.css("div.entry-content-inner p").text
         end
 
-        doc.css("ol.holiday-list.holiday-list-celebrate").each do |info|
-            celebration.activity_title = info.css("div.holiday-list-item-inner h3").first.text
-            celebration.activity_info = info.css("div.holiday-list-item-inner p").first.text
+        doc.css("ol.holiday-list.holiday-list-celebrate div.holiday-list-item-inner").each do |info|
+            celebration.activity_title = info.css("h3").text
+            celebration.activity_info = info.css("p").text
         end
 
-        # add history?
-
-
+        doc.css("section.holiday-history.holiday-section").each do |info|
+            celebration.history = info.css("p").text
+        end
     end
-
-    # def scrape_today
-    #     url = "https://nationaltoday.com/"
-    #     doc = Nokogiri::HTML(open(url))
-    #     todays_holiday = doc.css("div.slider-day-content")
-    #     todays_holiday.each do |holiday|
-    #         name = holiday.css("h2.holiday-title-text").text
-    #         link = holiday.css("a").attr("href")
-    #     end
-    # end
-            
     
 end
 

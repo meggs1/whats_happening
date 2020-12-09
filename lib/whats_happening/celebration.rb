@@ -1,5 +1,5 @@
 class WhatsHappening::Celebration
-    attr_accessor :name, :month, :link, :description, :activity_title, :activity_info
+    attr_accessor :name, :month, :link, :description, :activity_title, :activity_info, :history
     @@all = []
     
     def initialize(name, month, link)
@@ -9,6 +9,7 @@ class WhatsHappening::Celebration
         @description = []
         @activity_title = activity_title
         @activity_info = activity_info
+        @history = []
         add_to_month
         @@all << self
     end
@@ -23,6 +24,10 @@ class WhatsHappening::Celebration
     
     def get_celebration_description
         WhatsHappening::Scraper.scrape_info(self) if @description.empty?
+    end
+
+    def get_celebration_history
+        WhatsHappening::Scraper.scrape_info(self) if @history.empty?
     end
 
 end

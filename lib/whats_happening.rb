@@ -13,8 +13,6 @@ require_relative './whats_happening/month'
 require_relative './whats_happening'
 
 
-
-
 module WhatsHappening
   class Error < StandardError; end
   # Your code goes here...
