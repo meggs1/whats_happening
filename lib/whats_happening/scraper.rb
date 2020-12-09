@@ -18,7 +18,7 @@ class WhatsHappening::Scraper
         celebrations = doc.css("tr.row-data.row-months")
 
         celebrations.each do |celebration|
-            name = celebration.css("td.title").text
+            name = celebration.css("td.title").text.strip
             link = celebration.css("td.title a").attribute("href").value
             WhatsHappening::Celebration.new(name, month, link)
         end
@@ -29,17 +29,17 @@ class WhatsHappening::Scraper
         doc = Nokogiri::HTML(open(url))
 
         doc.css("div.holiday-section.holiday-content p").each do |info|
-            description = info.text
+            description = info.text.strip
             celebration.description << description
         end
 
         doc.css("ol.holiday-list.holiday-list-celebrate div.holiday-list-item-inner").each do |info|
-            celebration.activity_title = info.css("h3").text
-            celebration.activity_info = info.css("p").text
+            celebration.activity_title = info.css("h3").text.strip
+            celebration.activity_info = info.css("p").text.strip
         end
 
         doc.css("section.holiday-history.holiday-section p").each do |info|
-            history = info.text
+            history = info.text.strip
             celebration.history << history
         end
     end
