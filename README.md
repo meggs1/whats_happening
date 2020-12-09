@@ -22,7 +22,7 @@ Or install it yourself as:
 
 ## Usage
 
-Type ```cd whats_happening``` in the command line then type ```bin/whats_happening```
+Type ```$ cd whats_happening``` in the command line then type ```$ bin/whats_happening```
 
 ## Development
 
@@ -32,7 +32,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[meggs1]/whats_happening.
+Bug reports and pull requests are welcome on GitHub at https://github.com/meggs1/whats_happening.
 
 
 ## License
