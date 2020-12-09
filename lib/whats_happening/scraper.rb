@@ -28,8 +28,9 @@ class WhatsHappening::Scraper
         url = celebration.link
         doc = Nokogiri::HTML(open(url))
 
-        doc.css("div.holiday-section.holiday-content").each do |info|
-            celebration.description = info.css("div.entry-content-inner p").text
+        doc.css("div.holiday-section.holiday-content p").each do |info|
+            description = info.text.strip
+            celebration.description << description
         end
 
         doc.css("ol.holiday-list.holiday-list-celebrate div.holiday-list-item-inner").each do |info|
@@ -37,8 +38,9 @@ class WhatsHappening::Scraper
             celebration.activity_info = info.css("p").text
         end
 
-        doc.css("section.holiday-history.holiday-section").each do |info|
-            celebration.history = info.css("p").text
+        doc.css("section.holiday-history.holiday-section p").each do |info|
+            history = info.text
+            celebration.history << history
         end
     end
     

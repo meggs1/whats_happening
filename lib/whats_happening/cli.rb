@@ -49,14 +49,12 @@ class WhatsHappening::CLI
     end
 
     def get_user_celebration(month)
-        puts "Choose the number of an event to learn more, to back enter 'back'.".green
+        puts "Choose the number of an event to learn more:".green
         input = gets.strip.to_i
         celebration = month.celebrations[input - 1]
         celebration.get_celebration_description
         if input > 0 && input < month.celebrations.length + 1
             celebration_menu(celebration)
-        elsif input == "back"
-            start
         else
             invalid_entry
             get_user_celebration(month)
@@ -87,7 +85,7 @@ class WhatsHappening::CLI
 
     def show_celebration_descripton(celebration)
         puts celebration.name.light_magenta
-        puts celebration.description
+        celebration.description.each {|d| puts "#{d}"}
         celebration_menu(celebration)
     end
 
@@ -97,7 +95,7 @@ class WhatsHappening::CLI
             puts "Sorry, no information on that.".red
         else
             puts "The history of #{celebration.name}".light_magenta
-            puts celebration.history
+            celebration.history.each {|h| puts "#{h}"}
         end
         celebration_menu(celebration)
     end
