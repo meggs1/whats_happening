@@ -23,7 +23,7 @@ class WhatsHappening::Scraper
             WhatsHappening::Celebration.new(name, month, link)
         end
     end
- 
+
     def self.scrape_info(celebration)
         url = celebration.link
         doc = Nokogiri::HTML(open(url))
@@ -43,6 +43,5 @@ class WhatsHappening::Scraper
             celebration.history << history
         end
     end
-    
 end
 

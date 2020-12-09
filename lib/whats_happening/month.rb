@@ -21,6 +21,6 @@ class WhatsHappening::Month
     def save
         @@all << self
     end
-
+    
 end
 

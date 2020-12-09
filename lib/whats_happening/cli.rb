@@ -20,7 +20,7 @@ class WhatsHappening::CLI
         list_months
         input = gets.strip.to_i
         if input > 0 && input < @months.length + 1
-            show_celebrations(input)
+            list_celebrations(input)
         elsif input == "exit"
             goodbye
         else 
@@ -34,19 +34,21 @@ class WhatsHappening::CLI
         @months.each.with_index(1)  {|month, i| puts "#{i}. #{month.name}"}
     end
     
-    def show_celebrations(input)
+    def list_celebrations(input)
         month = @months[input - 1]
         month.get_celebrations
-        if input > 0 && input <= month.celebrations.length
+        if input > 0 && input <= @months.length
             puts "Here is what's happening in #{month.name}:".light_magenta
             month.celebrations.each.with_index(1) do |celebration, i|
                 puts "#{i}. #{celebration.name}"
             end
             get_user_celebration(month)
         else
-            invalid_input
+            invalid_entry
         end
     end
+
+
 
     def get_user_celebration(month)
         puts "Choose the number of an event to learn more:".green
@@ -79,12 +81,11 @@ class WhatsHappening::CLI
             goodbye
         else 
             invalid_entry
-            celebration_menu(celebrations)
+            celebration_menu(celebration)
         end
     end
 
     def show_celebration_descripton(celebration)
-        puts celebration.name.light_magenta
         celebration.description.each {|d| puts "#{d}"}
         celebration_menu(celebration)
     end
@@ -102,7 +103,7 @@ class WhatsHappening::CLI
 
     def show_activity(celebration)
         if  celebration.activity_title.empty?
-            puts "Sorry, no information on that."
+            puts "Sorry, no information on that, try another event."
         else
             puts "To participate in #{celebration.name} you can #{celebration.activity_title.downcase}!".light_magenta
             puts "#{celebration.activity_info}"
