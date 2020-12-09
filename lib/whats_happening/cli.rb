@@ -48,14 +48,12 @@ class WhatsHappening::CLI
         end
     end
 
-
-
     def get_user_celebration(month)
         puts "Choose the number of an event to learn more:".green
         input = gets.strip.to_i
         celebration = month.celebrations[input - 1]
-        celebration.get_celebration_description
         if input > 0 && input < month.celebrations.length + 1
+            celebration.get_celebration_description
             celebration_menu(celebration)
         else
             invalid_entry
@@ -119,4 +117,3 @@ class WhatsHappening::CLI
         puts "Goodbye! See you next month!".yellow
     end
 end
-

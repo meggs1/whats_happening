@@ -29,7 +29,7 @@ class WhatsHappening::Scraper
         doc = Nokogiri::HTML(open(url))
 
         doc.css("div.holiday-section.holiday-content p").each do |info|
-            description = info.text.strip
+            description = info.text
             celebration.description << description
         end
 
