@@ -6,12 +6,12 @@ class WhatsHappening::Celebration
         @name = name
         @month = month
         @link = link
-        @description = []
         @activity_title = activity_title
         @activity_info = activity_info
+        @description = []
         @history = []
         add_to_month
-        @@all << self
+        save
     end
     
     def self.all
@@ -22,12 +22,11 @@ class WhatsHappening::Celebration
         @month.celebrations << self unless @month.celebrations.include?(self)
     end
     
-    def get_celebration_description
+    def get_celebration_info
         WhatsHappening::Scraper.scrape_info(self) if @description.empty?
     end
 
-    def get_celebration_history
-        WhatsHappening::Scraper.scrape_info(self) if @history.empty?
+    def save
+        @@all << self
     end
-
 end

@@ -7,7 +7,7 @@ class WhatsHappening::Scraper
         months.each do |month|
             name = month.css("h2.daycal-month-name").text
             link = month.css("div.daycal-month-link a").attribute("href").value
-            WhatsHappening::Month.new(name, link)
+            WhatsHappening::Month.new(name, link) #creates a new instance of the month class
         end
     end
 
@@ -20,7 +20,7 @@ class WhatsHappening::Scraper
         celebrations.each do |celebration|
             name = celebration.css("td.title").text.strip
             link = celebration.css("td.title a").attribute("href").value
-            WhatsHappening::Celebration.new(name, month, link)
+            WhatsHappening::Celebration.new(name, month, link) #creates a new instance of the celebration class
         end
     end
 

@@ -7,12 +7,7 @@ class WhatsHappening::CLI
         █░░║║║╠─║─║─║║║║║╠─░░█
         █░░╚╩╝╚╝╚╝╚╝╚╝╩─╩╚╝░░█
         ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ".yellow
-
         start
-    end
-
-    def get_months
-        @months = WhatsHappening::Month.all
     end
 
     def start
@@ -27,6 +22,10 @@ class WhatsHappening::CLI
             invalid_entry
             start
         end
+    end
+
+    def get_months
+        @months = WhatsHappening::Month.all
     end
 
     def list_months
@@ -53,7 +52,7 @@ class WhatsHappening::CLI
         input = gets.strip.to_i
         celebration = month.celebrations[input - 1]
         if input > 0 && input < month.celebrations.length + 1
-            celebration.get_celebration_description
+            celebration.get_celebration_info
             celebration_menu(celebration)
         else
             invalid_entry
@@ -68,7 +67,7 @@ class WhatsHappening::CLI
         input = gets.strip.downcase
 
         if input == "d"
-           show_celebration_descripton(celebration)
+            show_celebration_descripton(celebration)
         elsif input == "h"
             show_celebration_history(celebration)
         elsif input == "a"
@@ -84,25 +83,26 @@ class WhatsHappening::CLI
     end
 
     def show_celebration_descripton(celebration)
-        celebration.description.each {|d| puts "#{d}"}
+        celebration.description.each {|d| puts "\n#{d}"}
         celebration_menu(celebration)
     end
 
     def show_celebration_history(celebration)
-        
         if celebration.history.empty?
             puts "Sorry, no information on that.".red
         else
+            puts " "
             puts "The history of #{celebration.name}".light_magenta
-            celebration.history.each {|h| puts "#{h}"}
+            celebration.history.each {|h| puts "\n#{h}"}
         end
         celebration_menu(celebration)
     end
 
     def show_activity(celebration)
-        if  celebration.activity_title.empty?
-            puts "Sorry, no information on that, try another event."
+        if celebration.activity_title.empty?
+            puts "Sorry, no information on that.".red
         else
+            puts " "
             puts "To participate in #{celebration.name} you can #{celebration.activity_title.downcase}!".light_magenta
             puts "#{celebration.activity_info}"
         end
@@ -110,7 +110,8 @@ class WhatsHappening::CLI
     end
 
     def invalid_entry
-       puts  "Sorry, not sure what you mean. Try again".red
+       puts " "
+       puts "Not sure what you mean. Try again".red
     end
 
     def goodbye
