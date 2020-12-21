@@ -40,6 +40,7 @@ class WhatsHappening::CLI
             puts "Here is what's happening in #{month.name}:".light_magenta
             month.celebrations.each.with_index(1) do |celebration, i|
                 puts "#{i}. #{celebration.name}"
+                sleep 0.1
             end
             get_user_celebration(month)
         else
