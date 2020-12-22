@@ -6,8 +6,6 @@ class WhatsHappening::Celebration
         @name = name
         @month = month
         @link = link
-        @activity_title = activity_title
-        @activity_info = activity_info
         @description = []
         @history = []
         add_to_month

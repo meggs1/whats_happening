@@ -30,7 +30,7 @@ class WhatsHappening::CLI
 
     def list_months
         puts "Please enter the number of the month you're interested in:".green
-        @months.each.with_index(1)  {|month, i| puts "#{i}. #{month.name}"}
+        @months.each.with_index(1) {|month, i| puts "#{i}. #{month.name}"}
     end
     
     def list_celebrations(input)
@@ -40,7 +40,7 @@ class WhatsHappening::CLI
             puts "Here is what's happening in #{month.name}:".light_magenta
             month.celebrations.each.with_index(1) do |celebration, i|
                 puts "#{i}. #{celebration.name}"
-                sleep 0.1
+                sleep 0.2
             end
             get_user_celebration(month)
         else
